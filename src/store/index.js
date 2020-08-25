@@ -23,7 +23,17 @@ export default new Vuex.Store({
       // fetch user profile and set it in state
       dispatch(FETCH_USER_PROFILE, user)
     },
-    async FETCH_USER_PROFILE({ commit }, user) {
+    async signup({ dispatch }, { email, password, name, title }) {
+      const { user } = await fb.auth.createUserWithEmailAndPassword(email, password)
+
+      await fb.usersCollection.doc(user.uid).set({
+        name,
+        title
+      })
+
+      dispatch(FETCH_USER_PROFILE, user)
+    },
+    async fetchUserProfile({ commit }, user) {
       // fetch user profile
       const userProfile = await fb.usersCollection.doc(user.uid).get()
 

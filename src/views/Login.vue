@@ -1,14 +1,12 @@
 <template>
   <div id="login">
+    <PasswordReset v-if="showPasswordReset" @close="togglePasswordReset" />
     <section>
       <div class="col1">
         <h1>Vuegram</h1>
         <p>
-          Welcome to the
-          <a href="https://savvyapps.com/" target="_blank">Savvy Apps</a> sample
-          social media web app powered by Vue.js and Firebase. Build this
-          project by checking out The Definitive Guide to Getting Started with
-          Vue.js
+          Welcome to the Vuegram a sample social media web app powered by Vue.js
+          and Firebase.
         </p>
       </div>
       <div :class="{ 'signup-form': !showLoginForm }" class="col2">
@@ -34,7 +32,7 @@
           </div>
           <button @click="login" class="button">Log In</button>
           <div class="extras">
-            <a>Forgot Password</a>
+            <a @click="togglePasswordReset">Forgot Password</a>
             <a @click="toggleForm()">Create an Account</a>
           </div>
         </form>
@@ -78,7 +76,7 @@
           </div>
           <button @click="signup()" class="button">Sign Up</button>
           <div class="extras">
-            <a @click="toggleForm()">Back to Log In</a>
+            <a @click="toggleForm">Back to Log In</a>
           </div>
         </form>
       </div>
@@ -88,11 +86,16 @@
 
 <script>
 import { LOGIN, SIGNUP } from "../store/operations";
+import PasswordReset from "@/components/PasswordReset";
 
 export default {
+  components: {
+    PasswordReset,
+  },
   data() {
     return {
       showLoginForm: true,
+      showPasswordReset: false,
       loginForm: {
         email: "",
         password: "",
@@ -108,6 +111,9 @@ export default {
   methods: {
     toggleForm() {
       this.showLoginForm = !this.showLoginForm;
+    },
+    togglePasswordReset() {
+      this.showPasswordReset = !this.showPasswordReset;
     },
     login() {
       this.$store.dispatch(LOGIN, {

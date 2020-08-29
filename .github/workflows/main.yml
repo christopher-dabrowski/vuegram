@@ -28,9 +28,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./package-lock.json') }}
 
       - name: npm install
-        run: |
-          set +e
-          [ ! -d "node_modules" ] && npm install
+        run: '[ ! -d "node_modules" ] && npm install || true'
       - run: npm run build
       - uses: w9jds/firebase-action@master
         with:

@@ -27,7 +27,8 @@ jobs:
             node_modules/*
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./package-lock.json') }}
 
-      - run: |
+      - name: npm install
+        run: |
           set +e
           [ ! -d "node_modules" ] && npm install
       - run: npm run build

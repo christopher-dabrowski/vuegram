@@ -2,7 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as fb from '../firebase'
 import router from '../router/index'
-import { SET_USER_PROFILE, FETCH_USER_PROFILE } from './operations'
+import {
+  SET_USER_PROFILE,
+  FETCH_USER_PROFILE
+} from './operations'
 
 Vue.use(Vuex)
 
@@ -22,6 +25,12 @@ export default new Vuex.Store({
 
       // fetch user profile and set it in state
       dispatch(FETCH_USER_PROFILE, user)
+    },
+    async logout({ commit }) {
+      await fb.auth.signOut()
+
+      commit(SET_USER_PROFILE, {})
+      router.push('/login')
     },
     async signup({ dispatch }, { email, password, name, title }) {
       const { user } = await fb.auth.createUserWithEmailAndPassword(email, password)

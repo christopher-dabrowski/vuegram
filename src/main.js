@@ -5,15 +5,21 @@ import store from './store'
 import { auth } from './firebase'
 import './assets/scss/app.scss'
 
+import { FETCH_USER_PROFILE } from "./store/operations";
+
 Vue.config.productionTip = false
 
 let app
-auth.onAuthStateChanged(() => {
+auth.onAuthStateChanged((user) => {
   if (!app) {
     app = new Vue({
       router,
       store,
       render: h => h(App)
     }).$mount('#app')
+  }
+
+  if (user) {
+    store.dispatch(FETCH_USER_PROFILE, user)
   }
 })

@@ -47,7 +47,9 @@ export default new Vuex.Store({
       const userProfile = await fb.usersCollection.doc(user.uid).get()
 
       commit(SET_USER_PROFILE, userProfile.data())
-      router.push('/')
+      if (router.currentRoute.path === '/login') {
+        router.push('/')
+      }
     }
   },
   modules: {

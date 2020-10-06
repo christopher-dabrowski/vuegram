@@ -31,5 +31,5 @@ export {
     usersCollection,
     postsCollection,
     commentsCollection,
-    likesCollection
+    likesCollection,
 }

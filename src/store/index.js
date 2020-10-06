@@ -50,6 +50,17 @@ export default new Vuex.Store({
       if (router.currentRoute.path === '/login') {
         router.push('/')
       }
+    },
+
+    async createPost({ state, commit }, { content }) {
+      await fb.postsCollection.add({
+        createdOn: new Date(),
+        content: content,
+        userId: fb.auth.currentUser.uid,
+        userName: state.userProfile.name,
+        coments: 0,
+        likes: 0
+      });
     }
   },
   modules: {

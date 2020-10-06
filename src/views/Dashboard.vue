@@ -9,7 +9,11 @@
             <p>create a post</p>
             <form @submit.prevent>
               <textarea v-model.trim="post.content"></textarea>
-              <button :disabled="!post.content" class="button">
+              <button
+                @click="createPost"
+                :disabled="!post.content"
+                class="button"
+              >
                 post
               </button>
             </form>
@@ -27,6 +31,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { CREATE_POST } from "../store/operations";
 
 export default {
   data() {
@@ -38,6 +43,12 @@ export default {
   },
   computed: {
     ...mapState(["userProfile"]),
+  },
+  methods: {
+    createPost() {
+      this.$store.dispatch(CREATE_POST, this.post);
+      this.post.content = "";
+    },
   },
 };
 </script>

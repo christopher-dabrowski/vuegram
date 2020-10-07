@@ -64,7 +64,7 @@ const store = new Vuex.Store({
         content: content,
         userId: fb.auth.currentUser.uid,
         userName: state.userProfile.name,
-        coments: 0,
+        comments: 0,
         likes: 0
       });
     }

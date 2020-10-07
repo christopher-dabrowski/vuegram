@@ -41,7 +41,7 @@
                 >
               </li>
               <li>
-                <a>likes {{ post.likes }}</a>
+                <a @click="likePost(post.id)">likes {{ post.likes }}</a>
               </li>
               <li><a>view full post</a></li>
             </ul>
@@ -57,7 +57,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { CREATE_POST } from "../store/operations";
+import { CREATE_POST, LIKE_POST } from "../store/operations";
 import moment from "moment";
 
 import CommentModal from "@/components/CommentModal";
@@ -82,6 +82,10 @@ export default {
     createPost() {
       this.$store.dispatch(CREATE_POST, this.post);
       this.post.content = "";
+    },
+
+    likePost(postId) {
+      this.$store.dispatch(LIKE_POST, { postId });
     },
 
     toggleCommentModal(post) {

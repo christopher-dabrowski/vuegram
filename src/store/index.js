@@ -67,6 +67,27 @@ const store = new Vuex.Store({
         comments: 0,
         likes: 0
       });
+    },
+
+    async likePost(_, { postId }) {
+      const userId = fb.auth.currentUser.uid
+
+      const exisingLike = await fb.likesCollection
+        .where("postId", "==", postId)
+        .where("userId", "==", userId)
+        .get()
+
+      if (!exisingLike.empty)
+        return; // User can like post only once
+
+      await fb.likesCollection.add({
+        postId,
+        userId
+      })
+
+      await fb.postsCollection.doc(postId).update({
+        likes: fb.firebase.firestore.FieldValue.increment(1)
+      })
     }
   },
   modules: {

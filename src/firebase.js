@@ -32,4 +32,5 @@ export {
     postsCollection,
     commentsCollection,
     likesCollection,
+    firebase
 }

@@ -6,6 +6,7 @@ const SIGNUP = 'signup'
 const FETCH_USER_PROFILE = 'fetchUserProfile'
 const CREATE_POST = 'createPost'
 const SET_POSTS = 'setPosts'
+const LIKE_POST = 'likePost'
 
 export {
     SET_USER_PROFILE,
@@ -14,5 +15,6 @@ export {
     SIGNUP,
     FETCH_USER_PROFILE,
     CREATE_POST,
-    SET_POSTS
+    SET_POSTS,
+    LIKE_POST
 }

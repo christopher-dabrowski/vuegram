@@ -24,8 +24,8 @@
         <div v-if="posts.length">
           <div v-for="post in posts" :key="post.id" class="post">
             <h5>{{ post.userName }}</h5>
-            <span>{{ post.createdOn }}</span>
-            <p>{{ post.content }}</p>
+            <span>{{ post.createdOn | formatDate }}</span>
+            <p>{{ post.content | trimLength }}</p>
             <ul>
               <li>
                 <a>comments {{ post.comments }}</a>
@@ -48,6 +48,7 @@
 <script>
 import { mapState } from "vuex";
 import { CREATE_POST } from "../store/operations";
+import moment from "moment";
 
 export default {
   data() {
@@ -64,6 +65,23 @@ export default {
     createPost() {
       this.$store.dispatch(CREATE_POST, this.post);
       this.post.content = "";
+    },
+  },
+  filters: {
+    formatDate(val) {
+      if (!val) {
+        return "-";
+      }
+
+      let date = val.toDate();
+      return moment(date).fromNow();
+    },
+
+    trimLength(val) {
+      if (val.length < 203) {
+        return val;
+      }
+      return `${val.substring(0, 200)}...`;
     },
   },
 };

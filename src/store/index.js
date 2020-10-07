@@ -4,18 +4,24 @@ import * as fb from '../firebase'
 import router from '../router/index'
 import {
   SET_USER_PROFILE,
-  FETCH_USER_PROFILE
+  FETCH_USER_PROFILE,
+  SET_POSTS
 } from './operations'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
-    userProfile: {}
+    userProfile: {},
+    posts: []
   },
   mutations: {
     setUserProfile(state, value) {
       state.userProfile = value
+    },
+
+    setPosts(state, value) {
+      state.posts = value
     }
   },
   actions: {
@@ -52,7 +58,7 @@ export default new Vuex.Store({
       }
     },
 
-    async createPost({ state, commit }, { content }) {
+    async createPost({ state }, { content }) {
       await fb.postsCollection.add({
         createdOn: new Date(),
         content: content,
@@ -66,3 +72,18 @@ export default new Vuex.Store({
   modules: {
   }
 })
+
+fb.postsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
+  const posts = [];
+
+  snapshot.forEach(doc => {
+    const post = doc.data();
+    post.id = doc.id;
+
+    posts.push(post);
+  });
+
+  store.commit(SET_POSTS, posts);
+});
+
+export default store;

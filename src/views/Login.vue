@@ -43,7 +43,7 @@
             <input
               v-model.trim="signupForm.name"
               type="text"
-              placeholder="Savvy Apps"
+              placeholder="Vin Venture"
               id="name"
             />
           </div>
@@ -52,7 +52,7 @@
             <input
               v-model.trim="signupForm.title"
               type="text"
-              placeholder="Company"
+              placeholder="Company XYZ"
               id="title"
             />
           </div>

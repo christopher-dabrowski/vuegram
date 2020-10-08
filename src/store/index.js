@@ -58,6 +58,33 @@ const store = new Vuex.Store({
       }
     },
 
+    async updateUserProfile({ commit }, { name, title }) {
+      const user = fb.auth.currentUser
+      const ref = fb.usersCollection.doc(user.uid)
+      await ref.set({
+        name,
+        title
+      })
+
+      commit(SET_USER_PROFILE, (await ref.get()).data())
+
+      // update all posts by user
+      const postDocs = await fb.postsCollection.where('userId', '==', user.uid).get()
+      postDocs.forEach(doc => {
+        fb.postsCollection.doc(doc.id).update({
+          userName: name
+        })
+      })
+
+      // update all comments by user
+      const commentDocs = await fb.commentsCollection.where('userId', '==', user.uid).get()
+      commentDocs.forEach(doc => {
+        fb.commentsCollection.doc(doc.id).update({
+          userName: name
+        })
+      })
+    },
+
     async createPost({ state }, { content }) {
       await fb.postsCollection.add({
         createdOn: new Date(),
